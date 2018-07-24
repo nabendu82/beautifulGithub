@@ -1,16 +1,21 @@
 var form = document.querySelector("form");
 
-form.addEventListener("submit", function(event) {
-    var data = new FormData(form);
-    var output = "";
-    for (const entry of data) {
-      output = entry[1];
-    };
+form.addEventListener("submit", sendColor, false);
 
-    browser.runtime.sendMessage({
-      userColor: `${output}`
-    })
+function sendColor(tab) {
+  var data = new FormData(form);
+  var output = "";
+  for (const entry of data) {
+    output = entry[1];
+  };
 
-    event.preventDefault();
-  }, false);
+  browser.tabs.sendMessage(tab.id, {userColor: `${output}`})
+
+  event.preventDefault();
+}
+
+
+  // browser.runtime.sendMessage({
+  //   userColor: `${output}`
+  // })
 
